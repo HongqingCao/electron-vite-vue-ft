@@ -1,9 +1,9 @@
 {
-  "name": "electron-vite-vue-ft",
+  "name": "FT金融终端",
   "version": "1.0.0",
   "description": "An Electron application with Vue",
   "main": "./out/main/index.js",
-  "author": "example.com",
+  "author": "codercao",
   "homepage": "https://electron-vite.org",
   "scripts": {
     "format": "prettier --write .",
@@ -20,7 +20,10 @@
   "dependencies": {
     "@electron-toolkit/preload": "^3.0.0",
     "@electron-toolkit/utils": "^3.0.0",
-    "electron-updater": "^6.1.7"
+    "@element-plus/icons-vue": "^2.3.1",
+    "electron-updater": "^6.1.7",
+    "element-plus": "^2.6.1",
+    "vue-router": "^4.3.0"
   },
   "devDependencies": {
     "@electron-toolkit/eslint-config": "^1.0.1",
@@ -33,6 +36,7 @@
     "eslint": "^8.56.0",
     "eslint-plugin-vue": "^9.20.1",
     "prettier": "^3.2.4",
+    "sass": "^1.71.1",
     "vite": "^5.0.12",
     "vue": "^3.4.15"
   }

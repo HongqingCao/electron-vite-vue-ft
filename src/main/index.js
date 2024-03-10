@@ -1,21 +1,127 @@
 /*
- * @Description: 
+ * @Description:
  * @Version: 1.0
  * @Autor: codercao
  * @Date: 2024-03-07 22:56:26
  * @LastEditors: codercao
- * @LastEditTime: 2024-03-07 23:19:48
+ * @LastEditTime: 2024-03-10 23:14:04
  */
-import { app, shell, BrowserWindow, ipcMain } from 'electron'
+import { app, shell, BrowserWindow, ipcMain, Tray, Menu, screen } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
+
+// package.json
+import pkg from '../../package.json'
+
 import icon from '../../resources/icon.png?asset'
 
-function createWindow() {
+let mainWindow, loginWindow
+const winURL = is.dev ? `http://localhost:5173` : `file://${__dirname}/index.html`
+
+const loginURL = is.dev ? `http://localhost:5173/login` : `file://${__dirname}/index.html/login`
+
+const path = require('path')
+const ApplicationName = pkg.name
+// 托盘对象
+let appTray = null
+// 是否可以退出
+let trayClose = false
+// 系统托盘右键菜单
+let trayMenuTemplate
+// 系统托盘图标
+let iconPath
+// 图标的上上下文
+let contextMenu
+// 图标闪烁定时器
+let flashTrayTimer
+// 单一实例
+
+/**
+ * 设置系统托盘
+ */
+function createTray() {
+  // 创建 Tray 对象并设置图标
+  appTray = new Tray(icon)
+  // 创建菜单并设置到 Tray 对象中
+  trayMenuTemplate = [
+    {
+      label: 'FT金融终端',
+      click: function () {
+        // 打开外部链接
+        shell.openExternal('https://github.com/HongqingCao/electron-vite-vue-ft')
+      }
+    },
+    {
+      label: '退出FT',
+      click: function () {
+        // 退出
+        trayClose = true
+        app.quit()
+      }
+    }
+  ]
+
+  appTray.setToolTip('FT金融终端')
+  // 图标的上上下文
+  contextMenu = Menu.buildFromTemplate(trayMenuTemplate)
+
+  // 设置此图标的上下文菜单
+  appTray.setContextMenu(contextMenu)
+  // 主窗口显示隐藏切换
+  appTray.on('click', () => {
+    // 清楚图标闪烁定时器
+    clearInterval(flashTrayTimer)
+    flashTrayTimer = null
+    // 还原图标
+    appTray.setImage(icon)
+    if (loginWindow) {
+      loginWindow.isVisible() ? loginWindow.hide() : loginWindow.show()
+    }
+
+    if (mainWindow) {
+      mainWindow.isVisible() ? mainWindow.hide() : mainWindow.show()
+    }
+  })
+}
+
+/**
+ * 创建登录窗口
+ */
+function createLoginWindow() {
+  if (loginWindow) {
+    return
+  }
+
+  loginWindow = new BrowserWindow({
+    show: true,
+    width: 768,
+    height: 480,
+    frame: false, // 无边框
+    transparent: true, // 透明
+    resizable: false,
+    webPreferences: {
+      preload: join(__dirname, '../preload/index.js'),
+      sandbox: false
+    }
+  })
+
+  loginWindow.loadURL(loginURL)
+
+  loginWindow.once('ready-to-show', () => {
+    loginWindow.show()
+  })
+
+  loginWindow.on('closed', () => {
+    loginWindow = null
+  })
+}
+
+function createMainWindow() {
   // Create the browser window.
+  //const { width, height } = screen.getPrimaryDisplay().workAreaSize
   const mainWindow = new BrowserWindow({
-    width: 750,
-    height: 350,
+    width: 990,
+    height: 520,
     show: false,
     frame: false,
     autoHideMenuBar: true,
@@ -35,6 +141,10 @@ function createWindow() {
     return { action: 'deny' }
   })
 
+  ipcMain.on('mainWindowclose', () => {
+    mainWindow.destroy()
+  })
+
   // HMR for renderer base on electron-vite cli.
   // Load the remote URL for development or the local html file for production.
   if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
@@ -51,22 +161,48 @@ app.whenReady().then(() => {
   // Set app user model id for windows
   electronApp.setAppUserModelId('com.electron')
 
-  // Default open or close DevTools by F12 in development
-  // and ignore CommandOrControl + R in production.
-  // see https://github.com/alex8088/electron-toolkit/tree/master/packages/utils
   app.on('browser-window-created', (_, window) => {
     optimizer.watchWindowShortcuts(window)
   })
 
-  // IPC test
-  ipcMain.on('ping', () => console.log('pong'))
+  ipcMain.on('minimize', () => {
+    console.log(66)
+    if (loginWindow) {
+      loginWindow.minimize()
+    }
+    if (mainWindow) {
+      mainWindow.minimize()
+    }
+  })
 
-  createWindow()
+  ipcMain.on('close', () => {
+    loginWindow.destroy()
+    mainWindow.destroy()
+  })
 
+  // 打开主页
+  ipcMain.on('openMainWindow', () => {
+    if (!mainWindow) {
+      createMainWindow()
+    }
+    // mainWindow.show()
+    // mainWindow.focus()
+    loginWindow.destroy()
+  })
+
+  ipcMain.on('openLoginWindow', () => {
+    if (!loginWindow) {
+      createLoginWindow()
+    }
+    mainWindow.destroy()
+    loginWindow.show()
+    loginWindow.focus()
+  })
+
+  createLoginWindow()
+  createTray()
   app.on('activate', function () {
-    // On macOS it's common to re-create a window in the app when the
-    // dock icon is clicked and there are no other windows open.
-    if (BrowserWindow.getAllWindows().length === 0) createWindow()
+    if (BrowserWindow.getAllWindows().length === 0) createLoginWindow()
   })
 })
 
