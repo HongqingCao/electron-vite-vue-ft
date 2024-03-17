@@ -1,3 +1,11 @@
+<!--
+ * @Description: 
+ * @Version: 1.0
+ * @Autor: codercao
+ * @Date: 2024-03-07 22:56:26
+ * @LastEditors: codercao
+ * @LastEditTime: 2024-03-16 18:06:22
+-->
 <template>
   <div id="app" class="app" >
     <router-view></router-view>
@@ -13,6 +21,7 @@ export default {
 html {
   /* 禁用html的滚动条，因为用的无框架窗口，默认就会有一个滚动条，所以去掉 */
   overflow-y: hidden;
+  font-size: 12px;
 }
 
 /*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/

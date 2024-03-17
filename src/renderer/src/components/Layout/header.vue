@@ -4,12 +4,12 @@
  * @Autor: codercao
  * @Date: 2024-03-10 20:41:10
  * @LastEditors: codercao
- * @LastEditTime: 2024-03-11 23:05:51
+ * @LastEditTime: 2024-03-16 21:44:07
 -->
 <template>
   <header class="top-header">
     <nav class="navbar">
-      <div class="left">
+      <div class="left" id="logoid">
         <img class="logo" src="../../assets/icon.png" />
         <span class="title">FT金融终端</span>
       </div>
@@ -44,11 +44,11 @@ const minimize = () => ipcRenderer.send('minimize')
 
 // 最大话
 const maximize = () => {
-  ipcRenderer.send('mainWindowMaximize',)
+  ipcRenderer.send('maximize',)
 }
 // 关闭窗口
 const close = () => {
-  ipcRenderer.send('mainWindowclose')
+  ipcRenderer.send('close')
 }
 </script>
 <style lang="scss" scoped>

@@ -4,7 +4,7 @@
  * @Autor: codercao
  * @Date: 2024-03-10 21:47:15
  * @LastEditors: codercao
- * @LastEditTime: 2024-03-10 22:28:21
+ * @LastEditTime: 2024-03-17 13:07:37
 -->
 <template>
   <!-- <el-radio-group v-model="isCollapse" style="margin-bottom: 20px">
@@ -20,7 +20,7 @@
       :popper-offset="8"
       @close="handleClose"
     >
-      <el-menu-item index="1">
+      <el-menu-item index="1" id="menuHome">
         <el-icon><HomeFilled /></el-icon>
         <template #title>首页</template>
       </el-menu-item>
@@ -55,7 +55,7 @@
     </el-menu>
 
     <div class="setting">
-      <el-icon class="my-setting" @click="handleCollapse">
+      <el-icon  id="menuSetting" class="my-setting" @click="handleCollapse">
         <Fold v-if="isCollapse" />
         <Expand v-else />
       </el-icon>

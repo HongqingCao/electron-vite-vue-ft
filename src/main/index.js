@@ -4,7 +4,7 @@
  * @Autor: codercao
  * @Date: 2024-03-07 22:56:26
  * @LastEditors: codercao
- * @LastEditTime: 2024-03-11 23:01:19
+ * @LastEditTime: 2024-03-16 17:08:17
  */
 import { app, shell, BrowserWindow, ipcMain, Tray, Menu, screen } from 'electron'
 import { join } from 'path'
@@ -114,15 +114,11 @@ function createLoginWindow() {
   loginWindow.on('closed', () => {
     loginWindow = null
   })
-
-  ipcMain.on('close', () => {
-    loginWindow.destroy()
-  })
 }
 
 function createMainWindow() {
   // Create the browser window
-  const mainWindow = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     height: 800,
     width: 1200,
     show: false,
@@ -142,21 +138,6 @@ function createMainWindow() {
   mainWindow.webContents.setWindowOpenHandler((details) => {
     shell.openExternal(details.url)
     return { action: 'deny' }
-  })
-
-  ipcMain.on('closed', () => {
-    loginWindow.destroy()
-  })
-
-  ipcMain.on('mainWindowclose', () => {
-    mainWindow.destroy()
-  })
-  ipcMain.on('minimize', () => {
-    mainWindow.destroy()
-  })
-
-  ipcMain.on('mainWindowMaximize', () => {
-    mainWindow.isMaximized() ? mainWindow.unmaximize() : mainWindow.maximize()
   })
 
   // HMR for renderer base on electron-vite cli.
@@ -188,12 +169,26 @@ app.whenReady().then(() => {
     }
   })
 
+  ipcMain.on('close', () => {
+    if (loginWindow) {
+      loginWindow.destroy()
+    }
+    if (mainWindow) {
+      mainWindow.destroy()
+    }
+  })
+
+  ipcMain.on('maximize', () => {
+    mainWindow.isMaximized() ? mainWindow.unmaximize() : mainWindow.maximize()
+  })
+
   // 打开主页
   ipcMain.on('openMainWindow', () => {
     if (!mainWindow) {
       createMainWindow()
     }
     loginWindow.destroy()
+    loginWindow = null
   })
 
   ipcMain.on('openLoginWindow', () => {

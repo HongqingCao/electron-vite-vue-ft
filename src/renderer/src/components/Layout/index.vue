@@ -4,7 +4,7 @@
  * @Autor: codercao
  * @Date: 2024-03-10 20:39:31
  * @LastEditors: codercao
- * @LastEditTime: 2024-03-10 23:09:56
+ * @LastEditTime: 2024-03-16 21:56:16
 -->
 <template>
   <div class="layout-warpper">
@@ -22,6 +22,8 @@
 import myheader from './header.vue'
 import leftMenu from './leftMenu.vue'
 import foot from './foot.vue'
+
+
 </script>
 
 <style lang="scss" scoped>
