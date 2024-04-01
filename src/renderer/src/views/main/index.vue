@@ -4,7 +4,7 @@
  * @Autor: codercao
  * @Date: 2024-03-10 00:50:09
  * @LastEditors: codercao
- * @LastEditTime: 2024-03-17 13:59:37
+ * @LastEditTime: 2024-04-01 21:27:05
 -->
 
 <template>
@@ -12,6 +12,7 @@
     <Layout>
       <!-- todo 暂时只上图，正在更新中 -->
       <!-- <div class="my-main"></div> -->
+      <KLine></KLine>
     </Layout>
     <Intro v-if="showIntro" :config="config" @done="showIntro = false"></Intro>
   </div>
@@ -20,6 +21,7 @@
 <script setup>
 import Layout from '../../components/Layout/index.vue'
 import Intro from '../../components/Intro/index.vue'
+import KLine from '../../components/KLine/index.vue'
 import { ref } from 'vue'
 
 const showIntro = ref(true)

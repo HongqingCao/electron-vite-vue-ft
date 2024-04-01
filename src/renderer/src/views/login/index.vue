@@ -4,7 +4,7 @@
  * @Autor: codercao
  * @Date: 2024-03-08 22:23:27
  * @LastEditors: codercao
- * @LastEditTime: 2024-03-10 23:05:16
+ * @LastEditTime: 2024-04-01 21:33:50
 -->
 <template>
   <div class="login-warpper" style="-webkit-app-region: drag">
@@ -60,7 +60,7 @@ const close = () => {
 const login = () => {
   if (state.count && state.password) {
     state.info = ''
-    ipcRenderer.send('openMainWindow')
+    ipcRenderer && ipcRenderer.send('openMainWindow')
   } else {
     state.info = '账户或者密码错误！'
   }
