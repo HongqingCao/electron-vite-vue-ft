@@ -4,7 +4,7 @@
  * @Autor: codercao
  * @Date: 2024-03-10 20:39:31
  * @LastEditors: codercao
- * @LastEditTime: 2024-03-16 21:56:16
+ * @LastEditTime: 2024-04-05 00:19:04
 -->
 <template>
   <div class="layout-warpper">
@@ -22,8 +22,6 @@
 import myheader from './header.vue'
 import leftMenu from './leftMenu.vue'
 import foot from './foot.vue'
-
-
 </script>
 
 <style lang="scss" scoped>
@@ -32,6 +30,7 @@ import foot from './foot.vue'
   height: 100%;
   .main-warpper {
     height: calc(100% - 80px);
+    overflow: hidden;
     display: flex;
     .main-main {
       flex: 1;

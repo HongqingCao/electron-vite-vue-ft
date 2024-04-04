@@ -12,7 +12,11 @@
 </template>
 
 <script setup>
-import { onMounted, ref, reactive, toRefs, onBeforeUnmount } from 'vue'
+import chalk from "./chalk.json";
+
+
+
+import { onMounted, onBeforeUnmount } from 'vue'
 // 引入 echarts 核心模块，核心模块提供了 echarts 使用必须要的接口。
 import * as echarts from 'echarts/core'
 // 引入所需图表，图表后缀都为 Chart
@@ -105,9 +109,9 @@ echarts.use([
   UniversalTransition,
   CanvasRenderer
 ])
-
+echarts.registerTheme("dark", chalk);
 const initChart = () => {
-  chartInstance = echarts.init(document.getElementById('chartRef'), 'dark', {
+  chartInstance = echarts.init(document.getElementById('chartRef'), 'chalk', {
     renderer: 'canvas',
     useDirtyRect: false
   })

@@ -4,17 +4,19 @@
  * @Autor: codercao
  * @Date: 2024-03-10 00:50:09
  * @LastEditors: codercao
- * @LastEditTime: 2024-04-01 21:27:05
+ * @LastEditTime: 2024-04-05 00:22:07
 -->
 
 <template>
-  <div class="main-warpper">
+  <div class="main-main">
     <Layout>
       <!-- todo 暂时只上图，正在更新中 -->
       <!-- <div class="my-main"></div> -->
-      <KLine></KLine>
+      <div class="my-main">
+        <KLine></KLine>
+      </div>
     </Layout>
-    <Intro v-if="showIntro" :config="config" @done="showIntro = false"></Intro>
+    <!-- <Intro v-if="showIntro" :config="config" @done="showIntro = false"></Intro> -->
   </div>
 </template>
 
@@ -22,6 +24,7 @@
 import Layout from '../../components/Layout/index.vue'
 import Intro from '../../components/Intro/index.vue'
 import KLine from '../../components/KLine/index.vue'
+//import KLine from './kline/kline.vue'
 import { ref } from 'vue'
 
 const showIntro = ref(true)
@@ -64,17 +67,15 @@ const config = {
 </script>
 
 <style lang="scss" scoped>
-.main-warpper {
+.main-main {
   width: 100%;
   height: 100%;
   background-color: #191c1f;
   .my-main {
     width: 100%;
     height: 100%;
-    background: url(../../assets/home.png);
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+    border: 0.5px solid #495057;
+    box-sizing: border-box;
   }
 }
 </style>
