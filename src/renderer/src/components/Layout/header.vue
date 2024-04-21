@@ -4,7 +4,7 @@
  * @Autor: codercao
  * @Date: 2024-03-10 20:41:10
  * @LastEditors: codercao
- * @LastEditTime: 2024-03-16 21:44:07
+ * @LastEditTime: 2024-04-21 18:36:59
 -->
 <template>
   <header class="top-header">
@@ -13,8 +13,11 @@
         <img class="logo" src="../../assets/icon.png" />
         <span class="title">FT金融终端</span>
       </div>
-      <div class="middle"  style="-webkit-app-region: drag"></div>
+      <div class="middle" style="-webkit-app-region: drag"></div>
       <div class="right">
+        <el-icon @click="aidrawer = !aidrawer"
+          ><img class="ai-png" src="../../assets/ai.png"
+        /></el-icon>
         <el-icon @click="seting"><Setting /></el-icon>
         <el-icon @click.stop="minimize"><Minus /></el-icon>
         <el-icon @click.stop="maximize"><FullScreen /></el-icon>
@@ -22,11 +25,17 @@
       </div>
     </nav>
   </header>
+  <el-drawer v-model="aidrawer" title="小融" :with-header="false" size="70%" :before-close="handleClose">
+    <aiChat></aiChat>
+  </el-drawer>
 </template>
 <script setup>
 const { ipcRenderer } = window?.electron || ''
 import { ElNotification } from 'element-plus'
+import aiChat from '../../views/AiChat/index.vue'
 import { ref } from 'vue'
+const aidrawer = ref(false)
+
 const handleSelect = () => {}
 const querySearch = () => {}
 // 设置
@@ -44,11 +53,15 @@ const minimize = () => ipcRenderer.send('minimize')
 
 // 最大话
 const maximize = () => {
-  ipcRenderer.send('maximize',)
+  ipcRenderer.send('maximize')
 }
 // 关闭窗口
 const close = () => {
   ipcRenderer.send('close')
+}
+
+const handleClose = () => {
+  aidrawer.value = false
 }
 </script>
 <style lang="scss" scoped>
@@ -89,6 +102,11 @@ const close = () => {
         &:hover {
           background-color: #383c40;
         }
+      }
+      .ai-png {
+        width: 16px;
+        height: 16px;
+        margin: 6px 0;
       }
     }
   }

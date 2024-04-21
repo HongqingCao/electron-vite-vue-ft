@@ -4,7 +4,7 @@
  * @Autor: codercao
  * @Date: 2024-03-08 23:46:15
  * @LastEditors: codercao
- * @LastEditTime: 2024-03-10 01:45:06
+ * @LastEditTime: 2024-04-21 00:18:10
  */
 import { createRouter, createWebHistory } from 'vue-router'
 //import HomeView from '../views/HomeView.vue'
@@ -21,6 +21,11 @@ const router = createRouter({
       path: '/login',
       name: 'login',
       component: () => import('../views/login/index.vue')
+    },
+    {
+      path: '/aiChat',
+      name: 'aiChart',
+      component: () => import('../views/AiChat/index.vue')
     }
   ]
 })

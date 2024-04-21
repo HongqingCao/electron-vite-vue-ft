@@ -136,6 +136,7 @@ const initKOption = (rawData, mycallback) => {
   let MA10 = calculateMA(10, data)
   let MA20 = calculateMA(20, data)
   let markLineData = getMarkLineData(data.categoryData)
+  console.log("data.volumes", data.volumes)
   const axisPointer = {
     show: true,
     lineStyle: {
@@ -167,55 +168,55 @@ const initKOption = (rawData, mycallback) => {
       axisPointer: {
         type: 'cross'
       },
-      position: ['4%', '60%'],
-      alwaysShowContent: true,
-      extraCssText: 'box-shadow: none',
-      formatter: function (params) {
-        let obj = {
-          open_px: '',
-          close_px: '',
-          high_px: '',
-          low_px: '',
-          business_amount: '',
-          MA5: '',
-          MA10: '',
-          MA20: '',
-          Volume: ''
-        }
-        params.forEach((item) => {
-          if (item.seriesName == 'candlestick') {
-            obj.open_px = item.data[1]
-            obj.close_px = item.data[2]
-            obj.low_px = item.data[3]
-            obj.high_px = item.data[4]
-            obj.business_amount = item.data[5]
-          }
-          if (item.seriesName == 'MA5') {
-            obj.MA5 = item.data
-          }
-          if (item.seriesName == 'MA10') {
-            obj.MA10 = item.data
-          }
-          if (item.seriesName == 'MA20') {
-            obj.MA20 = item.data
-          }
-          if (item.seriesName == 'Volume') {
-            obj.Volume = item.data[1]
-          }
-        })
-        mycallback(obj)
-        return (
-          "<div style='height:24px;color: #fff; font-weight: normal;line-height:24px; padding-left:4px; width:5000000px; font-size:12px;background:#212529'; display: flex; alignItems: center;'>" +
-          `<span style=' font-weight: normal;color: #fff; '>VOL成交量:${
-            obj.Volume / 10000
-          }万\xa0\xa0</span> ` +
-          `<span> 开盘价:${obj.open_px} \xa0\xa0 </span> ` +
-          `<span> 收盘价:${obj.close_px} \xa0\xa0 </span> ` +
-          `<span> 最高价:${obj.high_px} \xa0\xa0 </span> ` +
-          `<span> 最低价:${obj.low_px}</span> ` +
-          '</div>'
-        )
-      },
+    //  position: ['4%', '60%'],
+      // alwaysShowContent: true,
+      // extraCssText: 'box-shadow: none',
+      // formatter: function (params) {
+      //   let obj = {
+      //     open_px: '',
+      //     close_px: '',
+      //     high_px: '',
+      //     low_px: '',
+      //     business_amount: '',
+      //     MA5: '',
+      //     MA10: '',
+      //     MA20: '',
+      //     Volume: ''
+      //   }
+      //   params.forEach((item) => {
+      //     if (item.seriesName == 'candlestick') {
+      //       obj.open_px = item.data[1]
+      //       obj.close_px = item.data[2]
+      //       obj.low_px = item.data[3]
+      //       obj.high_px = item.data[4]
+      //       obj.business_amount = item.data[5]
+      //     }
+      //     if (item.seriesName == 'MA5') {
+      //       obj.MA5 = item.data
+      //     }
+      //     if (item.seriesName == 'MA10') {
+      //       obj.MA10 = item.data
+      //     }
+      //     if (item.seriesName == 'MA20') {
+      //       obj.MA20 = item.data
+      //     }
+      //     if (item.seriesName == 'Volume') {
+      //       obj.Volume = item.data[1]
+      //     }
+      //   })
+      //   mycallback(obj)
+      //   return (
+      //     "<div style='height:24px;color: #fff; font-weight: normal;line-height:24px; padding-left:4px;font-size:12px;background:#212529'; display: flex; alignItems: center;'>" +
+      //     `<span style=' font-weight: normal;color: #fff; '>VOL成交量:${
+      //       obj.Volume / 10000
+      //     }万\xa0\xa0</span> ` +
+      //     `<span> 开盘价:${obj.open_px} \xa0\xa0 </span> ` +
+      //     `<span> 收盘价:${obj.close_px} \xa0\xa0 </span> ` +
+      //     `<span> 最高价:${obj.high_px} \xa0\xa0 </span> ` +
+      //     `<span> 最低价:${obj.low_px}</span> ` +
+      //     '</div>'
+      //   )
+      // },
       backgroundColor: '#F7F7F7', // 设置为透明背景颜色
       borderColor: 'transparent', // 设置为透明边框颜色
       padding: 0,
@@ -362,7 +363,6 @@ const initKOption = (rawData, mycallback) => {
         name: 'candlestick',
         type: 'candlestick',
         data: data.values,
-        // barWidth: "9",
         emphasis: {
           disabled: true
         },
@@ -475,7 +475,6 @@ const initKOption = (rawData, mycallback) => {
         itemStyle: {
           borderRadius: 0
         },
-        // barMaxWidth: 9,
         emphasis: {}
       }
     ]
